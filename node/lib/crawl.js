@@ -5,7 +5,7 @@ _ = require('underscore'),
 inspect = require('inspect'),
 apricot = require('apricot').Apricot,
 stringHelper = require('./stringHelper');
-
+var db = require('./search');
 var write = module.exports.write = function(req,res){
     fs.writeFile('./text', req.params.text, function(er, text){ 
 	console.log('wrote file', text);
@@ -36,7 +36,10 @@ var loop = function(links){
 	    var _title = RegExp.$2;
 	    if(_title){
 		console.log(link.url,' has ', _title);	
-		save(_title,link.url);
+		save(_title,link.url, link.name, function(){
+		    console.log('finished reading ',link);
+		    _cb(links);
+		});
 	    }
 
 
@@ -60,13 +63,12 @@ var loop = function(links){
     
 };
 
-var save = function(_str,url){
+var save = function(_str,_url,_name,_callback){
     stringHelper.sentenceToWords(_str, function(er,_words){
-	console.log('got back words', _words);
 	_.map(_words, function(_word){
-	    var _row = {title:_str, word:_word, url: url, debug:1};
-	    console.log('asked to save ', _row);
+	    var _row = {title:_str, word:_word, url: _url, name:_name, debug:1};
 	    db.indicsearch.save(_row);
+	    _callback();
 	});
     });
     
@@ -85,7 +87,7 @@ var read = module.exports.read = function(url, _callback){
 	if( result instanceof Error){
             sys.puts('Error :' + result.message);
             //this.retry(5000);
-            //console.log("Wait...");
+            console.log("Wait...");
 	    _callback({error: result});
         }
 	_callback(null,result);

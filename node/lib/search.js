@@ -16,5 +16,3 @@ var _indicsearch = module.exports.indicsearch = {
     find: find,
     save: save
 };
-
-global.db = db;

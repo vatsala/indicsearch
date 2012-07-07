@@ -1,7 +1,7 @@
 /**
  * indicsearch
  */
-var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js'), _db = require('./lib/search.js');
+var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js'), db = require('./lib/search.js'), inspect = require('inspect');
 
 var app = express.createServer();
 var config = JSON.parse(fs.readFileSync('./config.json').toString());
@@ -14,6 +14,7 @@ app.get('/', function(req,res){
 
 app.get('/search/:query', function(req,res){
     console.log('going to search for ', req.params.query);
+    inspect(db);
     db.indicsearch.find({word:req.params.query}, function(er,rows){
 	res.send(rows);
     });
