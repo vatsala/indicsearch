@@ -17,7 +17,7 @@ cd $HOME
 mkdir git 
 cd git
 git clone https://github.com/vatsala/indicsearch
-cd $HOME/gitindicsearch
+cd $HOME/indicsearch
 ls
 
 # each of you think of a different feature
