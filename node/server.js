@@ -1,33 +1,38 @@
 /**
  * indicsearch
  */
-var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js');
+var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js'), db = require('./lib/search.js');
 
 var app = express.createServer();
 var config = JSON.parse(fs.readFileSync('./config.json').toString());
 app.get('/', function(req,res){
-
-	res.send('hello, world');	
-
+	res.render('index');	
 });
 
-app.get('/json/write/:text',function(req,res){
-	fs.writeFile('./text', req.params.text, function(){ 
-		console.log('wrote file');
-		res.send({ok:1})
-	});
+app.get('/search/:query', function(req,res){
+    console.log('going to search for ', req.params.query);
+    db.indicsearch.find({word:req.params.query}, function(er,rows){
+	res.send(rows);
+    });
 });
 
-app.get('/json/readurl/:url', function(req,res){
-	crawl.read(url, function(){
-		//do something here
-		ui.render(req,res);
-	});
-});
 
-var _writeFile = function(_file,_contents,_callback){
-	fs.writeFile('./text', _contents, _callback);
+
+appconfigure = function(_app){
+    _app.configure(function(){
+	_app.use(express.bodyParser());
+	_app.use(express.static(__dirname + '/public/'));
+	//_app.use(log4js.connectLogger(globallogger, { level: log4js.levels.DEBUG }));
+	_app.use(express.cookieParser());
+	_app.set('views', __dirname + '/views/');
+	_app.set('view engine', 'ejs');
+	_app.set('view options', { 
+	    layout: false
+	}); 
+    });
 };
+
+appconfigure(app);
 
 app.listen(config.port);
 console.log("Server listening on http://localhost:"+config.port);
