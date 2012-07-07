@@ -1,0 +1,36 @@
+=====================================================
+= directories
+=====================================================
+mkdir mongodata
+mkdir mongodata/indicsearch
+mkdir setups
+
+= DOWNLOADS =
+cd setups
+wget http://nodejs.org/dist/v0.6.8/node-v0.6.8.1tar.gz
+tar -xvzf node*.gz
+
+cd node*
+./configure && make && sudo make install
+
+cd $HOME
+mkdir git 
+cd git
+git clone https://github.com/vatsala/indicsearch
+cd $HOME/gitindicsearch
+ls
+
+# each of you think of a different feature
+#monica does
+git checkout -b ui
+
+#tushar does 
+git checkout -b importindic
+
+# later we will push/merge these branches easily
+
+# copy contents of  pastebin.com/SzTsASeM into $HOME/bashs/git-addons.sh
+# copy contents of bit.ly/git-completion into $HOME/bashs/git-completion.bash  
+# vi $HOME/.bash_profile and enter 
+source $HOME/bashs/git-addons.sh
+export PATH=$PATH://Users/kode/setups/mongodb/bin/
