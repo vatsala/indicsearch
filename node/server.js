@@ -1,10 +1,13 @@
 /**
  * indicsearch
  */
-var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js'), db = require('./lib/search.js');
+var express = require('express'), fs = require('fs'), restler = require('restler'), ui = require('./lib/ui.js'), crawl = require('./lib/crawl.js'), process = require('./lib/process.js'), _db = require('./lib/search.js');
 
 var app = express.createServer();
 var config = JSON.parse(fs.readFileSync('./config.json').toString());
+/**
+ * GETS
+ */ 
 app.get('/', function(req,res){
 	res.render('index');	
 });
@@ -16,7 +19,19 @@ app.get('/search/:query', function(req,res){
     });
 });
 
+app.get('/q',function(req,res){
+    if(req.query.q){
+	db.indicsearch.find({word:decodeURIComponent(req.query.q)}, function(er,rows){
+	    res.render('results',{locals:rows});
+	});
+    }else{
+	res.render('index');
+    }
+});
 
+/**
+ * POSTS
+ */ 
 
 appconfigure = function(_app){
     _app.configure(function(){
@@ -36,3 +51,5 @@ appconfigure(app);
 
 app.listen(config.port);
 console.log("Server listening on http://localhost:"+config.port);
+
+crawl.begin('./sitemaps.txt');

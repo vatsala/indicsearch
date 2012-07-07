@@ -7,6 +7,14 @@ var find = function(query, _callback){
     db.indicsearch.find(query).toArray(_callback);
 };
 
-var _indicsearch = module.exports.indicsearch = {
-    find: find
+var save = function(query, _callback){
+    console.log('save ', arguments);
+    db.indicsearch.save(query)
 };
+
+var _indicsearch = module.exports.indicsearch = {
+    find: find,
+    save: save
+};
+
+global.db = db;
