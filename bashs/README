@@ -1,0 +1,4 @@
+# vi $HOME/.bash_profile and add 
+chmod +x $HOME/indicsearch/bashs/*
+source $HOME/indicsearch/bashs/git-addons.sh
+export PATH=$PATH://Users/kode/setups/mongodb/bin/

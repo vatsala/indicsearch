@@ -1,0 +1,3 @@
+#!/bin/bash
+#mkdir $HOME/mongodata
+mongod --dbpath $HOME/mongodata/indicsearch --fork --logpath $HOME/mongodb.log
