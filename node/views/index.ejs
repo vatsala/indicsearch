@@ -37,9 +37,21 @@
       <div class="hero-unit">
 	<center>
 	    <h1>InDicSeaRcH</h1><br><br>
-	    <input type="text" id="searchTextBox" class="searchbox" style="font-size:11pt;"/><br><br> 
-	    <input type="submit" value="Search" class="searchbtn" onClick="appinit($('#searchTextBox').val())"/>
-	<div id="searchResultList"></div>
+	    <form method="post" name="searchForm" action="/" id='searchForm' enctype="application/x-www-form-urlencoded">
+	      <input type="text" id="q" value="क्रोध" name="q" class="searchbox" style="font-size:11pt;" /><br><br> 
+	      <script>function clicked(){
+		console.log('clicked!');
+		window.location.href='/?q='+document.getElementById('q').value;
+		}</script>
+	      <input type="button" value="Search" class="searchbtn" onclick='clicked();'/>
+	    </form>
+	<div id="searchResultList">
+	  <% if(posted){ %>
+	  <%= JSON.stringify(searchResultList) %>
+	  
+<script type="text/template" id="searchResultTemplate"><ul><% for(var i=0;i<searchResultList.length;i++){ %> 
+	<li> <%= searchResultList[i].link %> </li>						        <% } }%>
+	</div>
 	</center>
       </div>
 
@@ -61,7 +73,5 @@
     <script src="/js/bootstrap-collapse.js"></script>
     <script src="/js/bootstrap-carousel.js"></script>
     <script src="/js/bootstrap-typeahead.js"></script>
-
-<script type="text/template" id="searchResultTemplate"><table><tbody><% for(var i=0;i<searchResultList.length;i++){ %> <tr><td><%=searchResultList.models[i].get('link')%></td><td><%=searchResultList.models[i].get('word')%></td><td><%=searchResultList.models[i].get('url')%></td> </tr><% } %></tbody></table></script>
   </body>
 </html>
