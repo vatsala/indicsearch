@@ -11,7 +11,10 @@ app.get('/', function(req,res){
 });
 
 app.get('/json/write/:text',function(req,res){
-	fs.writeFile('./text', text, function(){ console.log('wrote file'); });
+	fs.writeFile('./text', req.params.text, function(){ 
+		console.log('wrote file');
+		res.send({ok:1})
+	});
 });
 
 app.listen(config.port);
