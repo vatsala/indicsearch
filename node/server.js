@@ -30,4 +30,4 @@ var _writeFile = function(_file,_contents,_callback){
 };
 
 app.listen(config.port);
-console.log("Server listening on http://localhost:'+config.port);
+console.log("Server listening on http://localhost:"+config.port);
